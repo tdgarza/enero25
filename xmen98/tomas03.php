@@ -16,6 +16,37 @@
     <title>Tomas Garza Index</title>
 </head>
 <body>
+  <style>
+    h1{
+      color:red;
+      text-align:center;
+      margin-bottom: 20px;
+
+    }
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      margin-top:50px;
+      border-radius:5px solid #616;
+    }
+    th, td{
+      padding: 10px;
+      text-align; left;
+      border-bottom: 2px solid #ff0d99;
+    }
+    tr:nth-child(even){
+      background-color:#ff9988;
+      color:black;
+    }
+    tr:nth-child(odd){
+      background-color:white;
+      color:black;
+    }
+    th{
+      background-color: #ee99ee;
+      color:white;
+    }
+  </style>
 
     <nav class="navbar navbar-light" style="background-color: #f4081c;">
        <div class="container">
@@ -64,15 +95,23 @@
        </div>
       </nav>
     <div class="jumbotron">
-        <h1 class="display-4" style="text-align: center; font-family: 'Diablo', sans-serif;color: red; text-shadow: 5px 5px 2px black;">CUARTO SEMESTRE</h1>
-        <p class="lead" style="text-align: center">Esta pagina esta dedicada a la materia de "Implenta Base de Datos Relacionales en un Sistema de Informacion"</p>
-        <hr class="my-4">
-        <p style="text-align: center">Tomas Daniel Garza Moya
-        </p>
-        <p class="lead">
-          
-        </p>
-      </div>
+      <h1>METER DATOS</h1>
+      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" id="formulario">
+      <label for="nombre">Nombre: </label>
+      <input type = "text" id="Nombre" name = "Nombre" required><br>
+      <label for="nombre">Nombre: </label>
+      <input type = "text" id="Nombre" name = "Nombre" required><br>
+      <input type = "text" id="Alias" name = "Alias" required><br>
+      <label for="Alias">Alias: </label>
+      <input type = "text" id="Alias" name = "Alias" required><br>
+      <input type = "text" id="FechaDeCreacion" name = "FechaDeCreacion" required><br>
+      <label for="FechaDeCreacion">Fecha De Creacion: </label>
+      <input type = "text" id="FechaDeCreacion" name = "FechaDeCreacion" required><br>
+      <label for="Descripcion">Descripcion: </label>
+      <input type = "text" id="Descripcion" name = "Descripcion" required><br>
+      <input type="submit" value="Agregar al registro">
+
+
       <div class="row" style="left:20px">
         <div class="col-sm-2">
         <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">

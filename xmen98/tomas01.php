@@ -16,6 +16,37 @@
     <title>Tomas Garza Index</title>
 </head>
 <body>
+  <style>
+    h1{
+      color:red;
+      text-align:center;
+      margin-bottom: 20px;
+
+    }
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      margin-top:50px;
+      border-radius:5px solid #616;
+    }
+    th, td{
+      padding: 10px;
+      text-align; left;
+      border-bottom: 2px solid #ff0d99;
+    }
+    tr:nth-child(even){
+      background-color:#ff9988;
+      color:black;
+    }
+    tr:nth-child(odd){
+      background-color:white;
+      color:black;
+    }
+    th{
+      background-color: #ee99ee;
+      color:white;
+    }
+  </style>
 
     <nav class="navbar navbar-light" style="background-color: #f4081c;">
        <div class="container">
@@ -31,9 +62,9 @@
               </a>
                 <!--Lo que sigue son los menus que se van a desplegar hacia abajo, cada uno tendra el nombre de su practica, ejemplo, practica uno se llamara su nombre+el numero de la practica XX terminando con HTML-->
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="/xmen98/tomas01.php">Mostrar Datos</a><br>
-                  <a class="dropdown-item" href="/xmen98/tomas02.php">Mostrar Datos 2</a><br>
-                  <a class="dropdown-item" href="/xmen98/tomas03.php">Meter Datos</a><br>
+                  <a class="dropdown-item" href="/enero25/xmen98/tomas01.php">Mostrar Datos</a><br>
+                  <a class="dropdown-item" href="/enero25/xmen98/tomas02.php">Mostrar Datos 2</a><br>
+                  <a class="dropdown-item" href="/enero25/xmen98/tomas03.php">Meter Datos</a><br>
                 </div>
             </li>
             <li class = "nav-item dropdown">
@@ -69,15 +100,50 @@
       $username = "root";
       $password = "";
       $servername = "localhost";
-      $database = "sanvalentin";
+      $database = "sanvalentin1"; //aqui va su base de datos
 
-      $conexion = new mysqli($username, $password, $servername, $database);
+      $conexion = new mysqli($servername, $username, $password, $database);
       if($conexion->connect_error){
         die("Conexion Fallida: " . $conexion->connect_error);
-      }
+      } //hasta aqui es la conexion que siempre sera igual
+      
       $sql = "SELECT * FROM nfleast"; //aqui agregan el nombre de la tabla que estan usando, en mi caso fue nfleast//
       $resultado = $conexion->query($sql);
       ?>
+      <div class="container">
+
+        <h1>TABLA DE RESULTADOS</h1>
+        <?php if($resultado->num_rows >0): ?>
+          <table>
+            <tr>
+              <th>Numero</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Apodo</th>
+              <th>Peso</th>
+              <th>Altura</th>
+              <th>Posicion</th>
+              <th>Universidad</th>
+              <th>Equipo</th>
+            </tr>
+            <?php while ($fila = $resultado->fetch_assoc()): ?>
+              <tr>
+                <td><?php echo $fila['id']; ?></td>
+                <td><?php echo $fila['nombre']; ?></td>
+                <td><?php echo $fila['apellido']; ?></td>
+                <td><?php echo $fila['apodo']; ?></td>
+                <td><?php echo $fila['peso']; ?></td>
+                <td><?php echo $fila['altura']; ?></td>
+                <td><?php echo $fila['posicion']; ?></td>
+                <td><?php echo $fila['universidad']; ?></td>
+                <td><?php echo $fila['equipo']; ?></td>
+              </tr>
+              <?php endwhile; ?>
+          </table>
+          <?php else: ?>
+            <p>No se encontraron valores</p>
+            <?php endif; ?>
+      </div>
      
       </div>
       <div class="row" style="left:20px">

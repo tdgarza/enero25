@@ -16,6 +16,37 @@
     <title>Tomas Garza Index</title>
 </head>
 <body>
+  <style>
+    h1{
+      color:red;
+      text-align:center;
+      margin-bottom: 20px;
+
+    }
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      margin-top:50px;
+      border-radius:5px solid #616;
+    }
+    th, td{
+      padding: 10px;
+      text-align; left;
+      border-bottom: 2px solid #ff0d99;
+    }
+    tr:nth-child(even){
+      background-color:#ff9988;
+      color:black;
+    }
+    tr:nth-child(odd){
+      background-color:white;
+      color:black;
+    }
+    th{
+      background-color: #ee99ee;
+      color:white;
+    }
+  </style>
 
     <nav class="navbar navbar-light" style="background-color: #f4081c;">
        <div class="container">
@@ -31,9 +62,9 @@
               </a>
                 <!--Lo que sigue son los menus que se van a desplegar hacia abajo, cada uno tendra el nombre de su practica, ejemplo, practica uno se llamara su nombre+el numero de la practica XX terminando con HTML-->
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="/enero25/xmen98/tomas01.php">Mostrar Datos</a><br>
-                  <a class="dropdown-item" href="/enero25/xmen98/tomas02.php">Mostrar Datos 2</a><br>
-                  <a class="dropdown-item" href="/enero25/xmen98/tomas03.php">Meter Datos</a><br>
+                  <a class="dropdown-item" href="/xmen98/tomas01.php">Mostrar Datos</a><br>
+                  <a class="dropdown-item" href="/xmen98/tomas02.php">Mostrar Datos 2</a><br>
+                  <a class="dropdown-item" href="/xmen98/tomas03.php">Meter Datos</a><br>
                 </div>
             </li>
             <li class = "nav-item dropdown">
@@ -64,14 +95,27 @@
        </div>
       </nav>
     <div class="jumbotron">
-        <h1 class="display-4" style="text-align: center; font-family: 'Diablo', sans-serif;color: red; text-shadow: 5px 5px 2px black;">CUARTO SEMESTRE</h1>
-        <p class="lead" style="text-align: center">Esta pagina esta dedicada a la materia de "Implenta Base de Datos Relacionales en un Sistema de Informacion"</p>
-        <hr class="my-4">
-        <p style="text-align: center">Tomas Daniel Garza Moya
-        </p>
-        <p class="lead">
-          
-        </p>
+        <h1 class="display-4" style="text-align: center; font-family: 'Diablo', sans-serif;color: red; text-shadow: 5px 5px 2px black;">MOSTRAR DATOS</h1>
+      <?php
+      $username = "root";
+      $password = "";
+      $servername = "localhost";
+      $database = "sanvalentin1"; //aqui va su base de datos
+
+      $conexion = new mysqli($servername, $username, $password, $database);
+      if($conexion->connect_error){
+        die("Conexion Fallida: " . $conexion->connect_error);
+      } //hasta aqui es la conexion que siempre sera igual
+      
+      $sql = "SELECT * FROM nfleast"; //aqui agregan el nombre de la tabla que estan usando, en mi caso fue nfleast//
+      $resultado = $conexion->query($sql);
+      ?>
+      <div class="container">
+
+        <h1>TABLA DE RESULTADOS 2</h1>
+        
+      </div>
+     
       </div>
       <div class="row" style="left:20px">
         <div class="col-sm-2">
