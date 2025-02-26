@@ -94,7 +94,61 @@
         </div>
        </div>
       </nav>
-    <div class="jumbotron">
+
+      <style>
+        .container1{
+          justify-content: center;
+          align-items:center;
+          width:50%;
+          padding:20px;
+          border-radius:10px;
+          box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        h1, h2{
+          text-align: center;
+          color: #ff79c6;
+          margin-bottom: 15px;
+        }
+        form{
+          
+          display: flex;
+          flex-direction: column;
+        }
+        label{
+          
+          font-size: 16px;
+          margin-bottom: 5px;
+        }
+        input[type = "text"]{
+          padding:8px;
+          margin-bottom:10px;
+          border:none;
+          border-radius:10px;
+          font-size:16px;
+          background-color:#44475a;
+          color:#fff;
+
+        }
+        input[type = "submit"]{
+          padding:10px;
+          margin-bottom:10px;
+          border:none;
+          border-radius:10px;
+          font-size:16px;
+          background-color:#fa7b;
+          color:#282a36;
+          cursor:pointer;
+          transition: background 0.3s;
+        }
+        input[type="submit"]:hover{
+          background-color:#3ae374;
+        }
+
+
+      </style>
+
+
+      <div class="container1">
       <h1>METER DATOS</h1>
       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" id="formulario">
       <label for="nombre">Nombre: </label>
@@ -111,6 +165,35 @@
       <input type = "text" id="Descripcion" name = "Descripcion" required><br>
       <input type="submit" value="Agregar al registro">
 
+      <?php
+    $username = "root";
+    $password = "";
+    $servername = "localhost";
+    $database = "marvel";
+        $conexion = new mysqli($servername, $username, $password, $database);
+         if($conexion->connect_error){
+                die("La conexion fallo: " . $conexion->connect_error);
+            }
+        if($_SERVER["REQUEST_METHOD"]=="POST"){
+          //obtener los datos del formulario
+          $Nombre = $_POST["Nombre"];
+          $Alias = $_POST["Alias"];
+          $FechaDeCreacion = $_POST["FechaDeCreacion"];
+          $Descripcion = $_POST["Descripcion"];
+
+          $sql = "INSERT INTO Personajes (Nombre, Alias, FechaDeCreacion, Descripcion) VALUES ($Nombre, $Alias, $FechaDeCreacion, $Descripcion)";
+          if($conexion->query($sql)==TRUE){
+            echo "<p class='success'>Nuevo personaje agregado con exito.</p>";
+          } else {
+            echo "<p class='error'> Error al agregar la persona: " . $conexion->error . "</p> ";
+
+          }
+
+        }
+        
+?>
+</div>
+    
 
       <div class="row" style="left:20px">
         <div class="col-sm-2">
