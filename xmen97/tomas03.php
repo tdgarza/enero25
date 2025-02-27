@@ -89,8 +89,71 @@
       color:white;
     }
   </style>
+  <style>
+    .container1{
+      justify-content:center;
+      align-items:center;
+      width:50%;
+      background-color:#282a36;
+      padding: 20px;
+      border-radius:10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      color:white;
+    }
+    h1{
+      font-family: 'so this is it', sans-serif; 
+      text-shadow: 0 1 1 black;
+      text-align:center;
+      color:#ff79c6;
+      margin-bottom:15px;
+    }
+    form{
+      display:flex;
+      flex-direction:column;
+    }
+    label{
+      font-size:16px;
+      margin-bottom:5px;
+    }
+    input[type="text"] {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #44475a;
+    color: #fff;
+}
+input[type="submit"] {
+    padding: 10px;
+    background-color: #50fa7b;
+    border: none;
+    color: #282a36;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+input[type="submit"]:hover {
+    background-color: #3ae374;
+}
+  </style>
+  <h1>METER DATOS</h1>  
+<div class="container1">
 
-<h1>Datos de la tabla de personajes</h1>  
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="formulario">
+    <label for="Nombre">Nombre: </label>
+    <input type="text" id="Nombre" name="Nombre" required><br>
+    <label for="Alias">Alias: </label>
+    <input type="text" id="Alias" name="Alias" required><br>
+    <label for="FechaDeCreacion">Fecha de Creacion: </label>
+    <input type="text" id="FechaDeCreacion" name="FechaDeCreacion" required><br>
+    <label for="Descripcion">Descripcion: </label>
+    <input type="text" id="Descripcion" name="Descripcion" required><br>
+
+    <input type="submit" value="Agregar registro">
+</form>
+
 <?php
     $username = "root";
     $password = "";
@@ -100,25 +163,37 @@
          if($conexion->connect_error){
                 die("La conexion fallo: " . $conexion->connect_error);
             }
-            $sql = "SELECT * FROM Personajes";
-            $resultado = $conexion->query($sql);
-            if($resultado->num_rows >0){
-                echo "<table>";
-                echo "<tr><th>Id</th><th>Nombre</th><th>Apodo</th><th>Equipo</th><th>Posicion</th><th>Altura</th><th>Peso</th><th>Numero</th><th>Edad</th><th>Nacionalidad</th><th>Puntos</th></tr>";
-                while($row = $resultado->fetch_assoc()){
-                    echo "<tr><td>" . $row["id"] . "</td><td>" . $row["nombre"] . "</td><td>" . $row["apodo"] . "</td><td>" . $row["equipo"] ."</td><td>" . $row["posicion"] . "</td><td>" . $row["altura"] . "</td><td>" . $row["peso"] . "</td><td>" . $row["numero"] . "</td><td>" . $row["edad"] . "</td><td>" . $row["nacionalidad"] . "</td><td>" . $row["puntos"] . "</td></tr>";
-                }
-                echo "</table>";
-                }else{
-                echo "No se encontraron registros en la base de datos";
-                }
-                $conexion->close();
-?>
-      
-   
-   
-       
+           if($_SERVER["REQUEST_METHOD"]=="POST"){
+            //se obtienen los datos del formulario
+            $Nombre = $_POST["Nombre"]; //tal cual aparecen en su base de datos lo que va en comillas
+            $Alias = $_POST["Alias"]; //tal cual aparecen en su base de datos lo que va en comillas
+            $FechaDeCreacion  = $_POST["FechaDeCreacion"]; //tal cual aparecen en su base de datos lo que va en comillas
+            $Descripcion = $_POST["Descripcion"]; //tal cual aparecen en su base de datos lo que va en comillas
 
+            $sql = "INSERT INTO Personajes (Nombre, Alias, FechaDeCreacion, Descripcion) VALUES ('$Nombre', '$Alias', '$FechaDeCreacion', '$Descripcion')";
+            if($conexion->query($sql)==TRUE){
+                echo "<p class='success'>Nuevo personaje agregado con exito. </p>";
+            }else{
+                echo "<p class='error'> Error al agregar al personaje: " . $conexion->error . "</p>";
+           }
+        }
+       // Mostrar datos de la tabla
+       $sql = "SELECT * FROM Personajes";
+       $resultado = $conexion->query($sql);
 
+       if ($resultado->num_rows > 0) {
+           echo "<table class='table table-bordered'>";
+           echo "<tr><th>Id</th><th>Nombre</th><th>Alias</th><th>Fecha de Creación</th><th>Descripción</th></tr>";
+           while ($row = $resultado->fetch_assoc()) {
+               echo "<tr><td>" . $row["PersonajeID"] . "</td><td>" . $row["Nombre"] . "</td><td>" . $row["Alias"] . "</td><td>" . $row["FechaDeCreacion"] . "</td><td>" . $row["Descripcion"] . "</td></tr>";
+           }
+           echo "</table>";
+       } else {
+           echo "<p>No se encontraron registros en la base de datos.</p>";
+       }
+
+       $conexion->close();
+   ?>
+</div>
 </body>
 </html>
