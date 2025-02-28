@@ -1,3 +1,6 @@
+<?php
+ob_start(); // Iniciar buffer de salida
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    
     <link href="https://fonts.cdnfonts.com/css/no-mystery" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/diablo" rel="stylesheet">
                 
@@ -31,7 +34,7 @@
     }
     th, td{
       padding: 10px;
-      text-align; left;
+      text-align: left;
       border-bottom: 2px solid #ff0d99;
     }
     tr:nth-child(even){
@@ -99,7 +102,7 @@
         .container1{
           justify-content: center;
           align-items:center;
-          width:50%;
+          width:60%;
           padding:20px;
           border-radius:10px;
           box-shadow: 0 0 10px rgba(0,0,0,0.2);
@@ -150,15 +153,11 @@
 
       <div class="container1">
       <h1>METER DATOS</h1>
-      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" id="formulario">
+      <form id="formulario" method="POST">
       <label for="nombre">Nombre: </label>
       <input type = "text" id="Nombre" name = "Nombre" required><br>
-      <label for="nombre">Nombre: </label>
-      <input type = "text" id="Nombre" name = "Nombre" required><br>
-      <input type = "text" id="Alias" name = "Alias" required><br>
       <label for="Alias">Alias: </label>
       <input type = "text" id="Alias" name = "Alias" required><br>
-      <input type = "text" id="FechaDeCreacion" name = "FechaDeCreacion" required><br>
       <label for="FechaDeCreacion">Fecha De Creacion: </label>
       <input type = "text" id="FechaDeCreacion" name = "FechaDeCreacion" required><br>
       <label for="Descripcion">Descripcion: </label>
@@ -166,6 +165,9 @@
       <input type="submit" value="Agregar al registro">
 
       <?php
+      error_reporting(E_ALL);
+      ini_set('display_errors', 1);
+
     $username = "root";
     $password = "";
     $servername = "localhost";
@@ -174,23 +176,44 @@
          if($conexion->connect_error){
                 die("La conexion fallo: " . $conexion->connect_error);
             }
-        if($_SERVER["REQUEST_METHOD"]=="POST"){
-          //obtener los datos del formulario
-          $Nombre = $_POST["Nombre"];
-          $Alias = $_POST["Alias"];
-          $FechaDeCreacion = $_POST["FechaDeCreacion"];
-          $Descripcion = $_POST["Descripcion"];
+            function insertarPersonaje($conexion) {
+              
+              if($_SERVER["REQUEST_METHOD"]=="POST"){
+                var_dump($_POST); 
+                //obtener los datos del formulario
+          $Nombre = $conexion->real_escape_string($_POST["Nombre"]);
+          $Alias = $conexion->real_escape_string($_POST["Alias"]);
+          $FechaDeCreacion = $conexion->real_escape_string($_POST["FechaDeCreacion"]);
+          $Descripcion = $conexion->real_escape_string($_POST["Descripcion"]);
 
-          $sql = "INSERT INTO Personajes (Nombre, Alias, FechaDeCreacion, Descripcion) VALUES ($Nombre, $Alias, $FechaDeCreacion, $Descripcion)";
+          $sql = "INSERT INTO Personajes (Nombre, Alias, FechaDeCreacion, Descripcion) VALUES ('$Nombre', '$Alias', '$FechaDeCreacion', '$Descripcion')";
+          
           if($conexion->query($sql)==TRUE){
-            echo "<p class='success'>Nuevo personaje agregado con exito.</p>";
+            
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
           } else {
             echo "<p class='error'> Error al agregar la persona: " . $conexion->error . "</p> ";
-
           }
-
         }
-        
+            }
+        insertarPersonaje($conexion);
+        //Mostrar los datos de la tabla
+        $sql = "SELECT * FROM Personajes";
+        $resultado = $conexion->query($sql);
+ 
+        if ($resultado->num_rows > 0) {
+            echo "<table class='table table-bordered'>";
+            echo "<tr><th>Id</th><th>Nombre</th><th>Alias</th><th>Fecha de Creación</th><th>Descripción</th></tr>";
+            while ($row = $resultado->fetch_assoc()) {
+                echo "<tr><td>" . $row["PersonajeID"] . "</td><td>" . $row["Nombre"] . "</td><td>" . $row["Alias"] . "</td><td>" . $row["FechaDeCreacion"] . "</td><td>" . $row["Descripcion"] . "</td></tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "<p>No se encontraron registros en la base de datos.</p>";
+        }
+       
+        $conexion->close();
 ?>
 </div>
     
