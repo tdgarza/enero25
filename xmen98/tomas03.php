@@ -27,7 +27,7 @@ ob_start(); // Iniciar buffer de salida
 
     }
     table{
-      width: 100%;
+      width: 50%;
       border-collapse: collapse;
       margin-top:50px;
       border-radius:5px solid #616;
@@ -100,8 +100,7 @@ ob_start(); // Iniciar buffer de salida
 
       <style>
         .container1{
-          justify-content: center;
-          align-items:center;
+         
           width:60%;
           padding:20px;
           border-radius:10px;
@@ -111,6 +110,8 @@ ob_start(); // Iniciar buffer de salida
           text-align: center;
           color: #ff79c6;
           margin-bottom: 15px;
+          font-family: 'Diablo', sans-serif;
+                                                
         }
         form{
           
@@ -146,8 +147,6 @@ ob_start(); // Iniciar buffer de salida
         input[type="submit"]:hover{
           background-color:#3ae374;
         }
-
-
       </style>
 
 
@@ -163,7 +162,9 @@ ob_start(); // Iniciar buffer de salida
       <label for="Descripcion">Descripcion: </label>
       <input type = "text" id="Descripcion" name = "Descripcion" required><br>
       <input type="submit" value="Agregar al registro">
+      </div>
 
+      
       <?php
       error_reporting(E_ALL);
       ini_set('display_errors', 1);
@@ -187,7 +188,6 @@ ob_start(); // Iniciar buffer de salida
           $Descripcion = $conexion->real_escape_string($_POST["Descripcion"]);
 
           $sql = "INSERT INTO Personajes (Nombre, Alias, FechaDeCreacion, Descripcion) VALUES ('$Nombre', '$Alias', '$FechaDeCreacion', '$Descripcion')";
-          
           if($conexion->query($sql)==TRUE){
             
             header("Location: " . $_SERVER['PHP_SELF']);

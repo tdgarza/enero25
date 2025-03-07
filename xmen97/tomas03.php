@@ -1,3 +1,6 @@
+<?php
+  ob_start();
+  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -138,10 +141,10 @@ input[type="submit"]:hover {
     background-color: #3ae374;
 }
   </style>
-  <h1>METER DATOS</h1>  
+   <h1>METER DATOS</h1> 
 <div class="container1">
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="formulario">
+<form method="POST" id="formulario">
     <label for="Nombre">Nombre: </label>
     <input type="text" id="Nombre" name="Nombre" required><br>
     <label for="Alias">Alias: </label>
@@ -153,7 +156,7 @@ input[type="submit"]:hover {
 
     <input type="submit" value="Agregar registro">
 </form>
-
+</div>
 <?php
     $username = "root";
     $password = "";
@@ -163,20 +166,28 @@ input[type="submit"]:hover {
          if($conexion->connect_error){
                 die("La conexion fallo: " . $conexion->connect_error);
             }
-           if($_SERVER["REQUEST_METHOD"]=="POST"){
-            //se obtienen los datos del formulario
-            $Nombre = $_POST["Nombre"]; //tal cual aparecen en su base de datos lo que va en comillas
-            $Alias = $_POST["Alias"]; //tal cual aparecen en su base de datos lo que va en comillas
-            $FechaDeCreacion  = $_POST["FechaDeCreacion"]; //tal cual aparecen en su base de datos lo que va en comillas
-            $Descripcion = $_POST["Descripcion"]; //tal cual aparecen en su base de datos lo que va en comillas
 
+          function insertarPersonaje($conexion){ //nueva linea
+
+           if($_SERVER["REQUEST_METHOD"]=="POST"){
+            var_dump($_POST); //nueva linea
+
+            //se obtienen los datos del formulario
+            $Nombre = $conexion->real_escape_string($_POST["Nombre"]); 
+            $Alias = $conexion->real_escape_string($_POST["Alias"]); 
+            $FechaDeCreacion  = $conexion->real_escape_string($_POST["FechaDeCreacion"]); 
+            $Descripcion = $conexion->real_escape_string($_POST["Descripcion"]); 
+            
             $sql = "INSERT INTO Personajes (Nombre, Alias, FechaDeCreacion, Descripcion) VALUES ('$Nombre', '$Alias', '$FechaDeCreacion', '$Descripcion')";
             if($conexion->query($sql)==TRUE){
                 echo "<p class='success'>Nuevo personaje agregado con exito. </p>";
+                header("Location: " . $_SERVER['PHP_SELF']);
+                exit();
             }else{
                 echo "<p class='error'> Error al agregar al personaje: " . $conexion->error . "</p>";
            }
         }
+      } insertarPersonaje($conexion);
        // Mostrar datos de la tabla
        $sql = "SELECT * FROM Personajes";
        $resultado = $conexion->query($sql);
@@ -191,9 +202,8 @@ input[type="submit"]:hover {
        } else {
            echo "<p>No se encontraron registros en la base de datos.</p>";
        }
-
        $conexion->close();
    ?>
-</div>
+
 </body>
 </html>
