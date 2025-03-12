@@ -16,7 +16,7 @@ ob_start(); // Iniciar buffer de salida
     <link href="https://fonts.cdnfonts.com/css/diablo" rel="stylesheet">
                 
     
-    <title>Tomas Garza Index</title>
+    <title>Mostrar Datos Relacionados</title>
 </head>
 <body>
   <style>
@@ -147,73 +147,81 @@ ob_start(); // Iniciar buffer de salida
           background-color:#3ae374;
         }
       </style>
+      <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Numero de Control</th>
+                <th>Nombre</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>Edad</th>
+                <th>Colonia</th>
+                <th>Especialidad</th>
+                <th>Genero</th>
+                <th>Correo</th>
+                <th>Telefono</th>
+                <th>Fecha de Ingreso</th>
+            </tr>
 
-
-      <div class="container1">
-      <h1>METER DATOS</h1>
-      <form id="formulario" method="POST">
-      <label for="nombre">Nombre: </label>
-      <input type = "text" id="Nombre" name = "Nombre" required><br>
-      <label for="Alias">Alias: </label>
-      <input type = "text" id="Alias" name = "Alias" required><br>
-      <label for="FechaDeCreacion">Fecha De Creacion: </label>
-      <input type = "text" id="FechaDeCreacion" name = "FechaDeCreacion" required><br>
-      <label for="Descripcion">Descripcion: </label>
-      <input type = "text" id="Descripcion" name = "Descripcion" required><br>
-      <input type="submit" value="Agregar al registro">
-      </div>
-
-      
+        </thead>
+        <tbody>
       <?php
+      //Estas dos lineas me dicen que errores tengo
       error_reporting(E_ALL);
       ini_set('display_errors', 1);
-
+        //estas lineas siempre estaran presentes, ya que me conectan al servidor
     $username = "root";
     $password = "";
     $servername = "localhost";
-    $database = "marvel";
+    $database = "cetis131";
         $conexion = new mysqli($servername, $username, $password, $database);
          if($conexion->connect_error){
                 die("La conexion fallo: " . $conexion->connect_error);
             }
-            function insertarPersonaje($conexion) {
-              
-              if($_SERVER["REQUEST_METHOD"]=="POST"){
-                var_dump($_POST); 
-                //obtener los datos del formulario
-          $Nombre = $conexion->real_escape_string($_POST["Nombre"]);
-          $Alias = $conexion->real_escape_string($_POST["Alias"]);
-          $FechaDeCreacion = $conexion->real_escape_string($_POST["FechaDeCreacion"]);
-          $Descripcion = $conexion->real_escape_string($_POST["Descripcion"]);
-
-          $sql = "INSERT INTO Personajes (Nombre, Alias, FechaDeCreacion, Descripcion) VALUES ('$Nombre', '$Alias', '$FechaDeCreacion', '$Descripcion')";
-          if($conexion->query($sql)==TRUE){
             
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit();
-          } else {
-            echo "<p class='error'> Error al agregar la persona: " . $conexion->error . "</p> ";
-          }
-        }
-            }
-        insertarPersonaje($conexion);
+         
         //Mostrar los datos de la tabla
-        $sql = "SELECT * FROM Personajes";
+        $sql = "SELECT 
+                        a.numero_control,
+                        a.nombre,
+                        a.apellido_paterno,
+                        a.apellido_materno,
+                        e.edad,
+                        c.colonia,
+                        es.especialidad,
+                        g.genero,
+                        a.correo,
+                        a.telefono,
+                        a.fecha_ingreso
+                        FROM alumnos a
+                        JOIN edades e ON a.id_edad = e.id
+                        JOIN colonias c ON a.id_colonia = c.id
+                        JOIN especialidades es ON a.id_especialidad = es.id
+                        JOIN generos g ON a.id_genero = g.id";
         $resultado = $conexion->query($sql);
- 
         if ($resultado->num_rows > 0) {
-            echo "<table class='table table-bordered'>";
-            echo "<tr><th>Id</th><th>Nombre</th><th>Alias</th><th>Fecha de Creación</th><th>Descripción</th></tr>";
-            while ($row = $resultado->fetch_assoc()) {
-                echo "<tr><td>" . $row["PersonajeID"] . "</td><td>" . $row["Nombre"] . "</td><td>" . $row["Alias"] . "</td><td>" . $row["FechaDeCreacion"] . "</td><td>" . $row["Descripcion"] . "</td></tr>";
+             while ($row = $resultado->fetch_assoc()) {
+                echo "<tr>
+                            <td>{$row['numero_control']}</td>
+                            <td>{$row['nombre']}</td>
+                            <td>{$row['apellido_paterno']}</td>
+                            <td>{$row['apellido_materno']}</td>
+                            <td>{$row['edad']}</td>
+                            <td>{$row['colonia']}</td>
+                            <td>{$row['especialidad']}</td>
+                            <td>{$row['genero']}</td>
+                            <td>{$row['correo']}</td>
+                            <td>{$row['telefono']}</td>
+                            <td>{$row['fecha_ingreso']}</td>
+                </tr>";
             }
-            echo "</table>";
         } else {
             echo "<p>No se encontraron registros en la base de datos.</p>";
         }
-       
         $conexion->close();
 ?>
+    </tbody>
+    </table>
 </div>
     
 
