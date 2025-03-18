@@ -61,9 +61,10 @@
    <div class="jumbotron">
   <h1 class="display-4" style="text-align: center; color: #1E2D24;                                                                    
   font-family: 'so this is it', sans-serif; text-shadow: 0 1 1 black;
-  ">PAGINA DE MOSTRAR DATOS RELACIONADOS</h1>
+  ">PAGINA DE METER Y MOSTRAR DATOS RELACIONADOS</h1>
   <style>
     h1{
+        font-size:12px;
       text-align:center;
       color:#334139;
       margin-bottom:20px;
@@ -109,6 +110,7 @@
       text-align:center;
       color:#ff79c6;
       margin-bottom:15px;
+      font-size:15px;
     }
     form{
       display:flex;
@@ -140,29 +142,37 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #3ae374;
 }
-
-
   </style>
-  <table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Numero de Control</th>
-            <th>Nombre</th>
-            <th>Apellido Paterno</th>
-            <th>Apellido Materno</th>
-            <th>Edad</th>
-            <th>Colonia</th>
-            <th>Especialidad</th>
-            <th>Genero</th>
-            <th>Correo</th>
-            <th>Telefono</th>
-            <th>Fecha de Ingreso</th>
-        </tr>
-    </thead>
+  <div class="container1" style=" max-width:600px; margin:auto;">
+ <form method="POST" id="formulario">
+        <label for="numero_control">Numero de Control: </label>
+        <input type="text" id="numero_control" name="numero_control" required></br>
+        <label for="nombre">Nombre: </label>
+        <input type="text" id="nombre" name="nombre" required></br>
+        <label for="apellido_paterno">Apellido Paterno: </label>
+        <input type="text" id="apellido_paterno" name="apellido_paterno" required></br>
+        <label for="apellido_materno">Apellido Materno: </label>
+        <input type="text" id="apellido_materno" name="apellido_materno" required></br>
+        <label for="edad">Edad: </label>
+        <input type="text" id="edad" name="edad" required></br>
+        <label for="colonia">Colonia: </label>
+        <input type="text" id="colonia" name="colonia" required></br>
+        <label for="especialidad">Especialidad: </label>
+        <input type="text" id="especialidad" name="especialidad" required></br>
+        <label for="genero">Genero: </label>
+        <input type="text" id="genero" name="genero" required></br>
+        <label for="correo">Correo Electronico: </label>
+        <input type="email" id="correo" name="correo" required></br>
+        <label for="telefono">Telefono: </label>
+        <input type="text" id="telefono" name="telefono" required></br>
+        <label for="fecha_ingreso">Fecha de Ingreso: </label>
+        <input type="date" id="fecha_ingreso" name="fecha_ingreso" required></br>
+ <input type="submit" value="Agregar Registro">
+ </form>
+</div>
 <?php
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-
     $username = "root";
     $password = "";
     $servername = "localhost";
@@ -171,49 +181,66 @@ input[type="submit"]:hover {
          if($conexion->connect_error){
                 die("La conexion fallo: " . $conexion->connect_error);
             }
-//LAS QUE TIENEN LA LETRA "a" PERTENECEN A LA TABLA PRINCIPAL LLAMADA "alumnos"
-//LAS DEMAS LETRAS SON DE ESAS TABLAS, COMO "e" de edades, la de "c" de colonias
-       $sql = "SELECT 
-                a.numero_control,
-                a.nombre,
-                a.apellido_paterno,
-                a.apellido_materno,
-                e.edad,
-                c.nombre_colonias,
-                es.nombre_especialidad,
-                g.nombre_genero,
-                a.correo,
-                a.telefono,
-                a.fecha_ingreso 
-                FROM alumnos a
-                JOIN edades e ON a.id_edad = e.id
-                JOIN colonias c ON a.id_colonia = c.id
-                JOIN especialidades es ON a.id_especialidad = es.id
-                JOIN generos g ON a.id_genero = g.id";
-                // edades, colonias, especialidades, generos es el nombre de la tabla, lo de id_edad, colonia, especialidad, genero, es el nombre de la columna
-       $resultado = $conexion->query($sql);
+    function insertarAlumno($conexion)
+    {
+        if($_SERVER["REQUEST_METHOD"]=="POST"){
+            var_dump($_POST); //linea dedicada para depurar
+            $numero_control = $conexion->real_escape_string($_POST["numero_control"]);
+            $nombre = $conexion->real_escape_string($_POST["nombre"]);
+            $apellido_paterno = $conexion->real_escape_string($_POST["apellido_paterno"]);
+            $apellido_materno = $conexion->real_escape_string($_POST["apellido_materno"]);
+            $edad = $conexion->real_escape_string($_POST["edad"]);
+            $colonia = $conexion->real_escape_string($_POST["colonia"]);
+            $especialidad = $conexion->real_escape_string($_POST["especialidad"]);
+            $genero = $conexion->real_escape_string($_POST["genero"]);
+            $correo = $conexion->real_escape_string($_POST["correo"]);
+            $telefono = $conexion->real_escape_string($_POST["telefono"]);
+            $fecha_ingreso = $conexion->real_escape_string($_POST["fecha_ingreso"]);
 
-       if ($resultado->num_rows > 0) {
-          
-           while ($row = $resultado->fetch_assoc()) {
-               echo "<tr>
-               <td>{$row['numero_control']}</td>
-               <td>{$row['nombre']}</td>
-               <td>{$row['apellido_paterno']}</td>
-               <td>{$row['apellido_materno']}</td>
-               <td>{$row['edad']}</td>
-               <td>{$row['nombre_colonias']}</td>
-               <td>{$row['nombre_especialidad']}</td>
-               <td>{$row['nombre_genero']}</td>
-               <td>{$row['correo']}</td>
-               <td>{$row['telefono']}</td>
-               <td>{$row['fecha_ingreso']}</td>
-               </tr>";
-           }
-       } else {
-           echo "<p>No se encontraron registros en la base de datos.</p>";
-       }
-       $conexion->close();
+               // Consulta SQL para insertar los datos
+               $sql = "INSERT INTO alumnos (numero_control, nombre, apellido_paterno, apellido_materno, edad, colonia, especialidad, genero, correo, telefono, fecha_ingreso) 
+               VALUES ('$numero_control', '$nombre', '$apellido_paterno', '$apellido_materno', '$edad', '$colonia', '$especialidad', '$genero', '$correo', '$telefono', '$fecha_ingreso')";
+            if ($conexion->query($sql) === TRUE){
+                echo "<p class='success'>Nuevo alumno agregado con éxito.</p>";
+                header("Location: " . $_SERVER['PHP_SELF']);
+                exit();
+            }else{
+                echo "<p class='error'>Error al agregar al alumno: " . $conexion->error . "</p>";
+                }
+              }
+            }
+            insertarAlumno($conexion);
+            // Mostrar datos de la tabla
+            $sql = "SELECT * FROM alumnos";
+            $resultado = $conexion->query($sql);
+            if ($resultado->num_rows > 0) {
+                echo "<table class='table table-bordered'>";
+                echo "<tr><th>Número de Control</th><th>Nombre</th><th>Apellido Paterno</th><th>Apellido Materno</th><th>Edad</th><th>Colonia</th><th>Especialidad</th><th>Género</th><th>Correo</th><th>Teléfono</th><th>Fecha de Ingreso</th></tr>";
+                while ($row = $resultado->fetch_assoc()) {
+
+            echo "<tr>
+            <td>" . $row["numero_control"] . "</td>
+            <td>" . $row["nombre"] . "</td>
+            <td>" . $row["apellido_paterno"] . "</td>
+            <td>" . $row["apellido_materno"] . "</td>
+            <td>" . $row["id_edad"] . "</td>
+            <td>" . $row["id_colonia"] . "</td>
+            <td>" . $row["id_especialidad"] . "</td>
+            <td>" . $row["id_genero"] . "</td>
+            <td>" . $row["correo"] . "</td>
+            <td>" . $row["telefono"] . "</td>
+            <td>" . $row["fecha_ingreso"] . "</td>
+          </tr>";
+}
+echo "</table>";
+} else {
+echo "<p>No se encontraron registros en la base de datos.</p>";
+}
+            
+                $conexion->close();
    ?>
 </body>
 </html>
+
+
+VAMONOS, GUARDEN y APAGUEN
