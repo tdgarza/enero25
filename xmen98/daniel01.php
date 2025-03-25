@@ -33,7 +33,7 @@
                 </head>
                 <body>
                 <style>
-    h1{
+                 h1{
         font-size:12px;
       text-align:center;
       color:#334139;
@@ -65,9 +65,8 @@
   </style>
   <style>
     .container1{
-      justify-content:center;
-      align-items:center;
-      width:50%;
+    
+      width:80%;
       background-color:#282a36;
       padding: 20px;
       border-radius:10px;
@@ -80,7 +79,7 @@
       text-align:center;
       color:#ff79c6;
       margin-bottom:15px;
-      font-size:15px;
+      font-size:25px;
     }
     form{
       display:flex;
@@ -113,7 +112,9 @@ input[type="submit"]:hover {
     background-color: #3ae374;
 }
   </style>
+  <div class="container1">
                     <h2>Registrar productos</h2>
+                    
                     <form method="POST">
                         <label>Nombre del producto:</label>
                         <input type="text" name="nombre" required><br><br>
@@ -135,5 +136,30 @@ input[type="submit"]:hover {
         <input type="submit" value="Agregar Producto">
                     </form>
                     
+                    <h2>Lista de productos</h2>
+                    <table>
+                      <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Categoria</th>
+                      </tr>
+                      <?php
+                       $sql_productos = "SELECT Productos.nombre, productos.precio, categorias.nombre AS categoria
+                       FROM productos
+                       JOIN categorias ON productos.id_categoria = categorias.id";$result_productos = $conexion->query($sql_productos);
+                       if($result_categorias ->num_rows>0){
+                        while($row = $result_productos->fetch_assoc()){
+                          echo "<tr>
+                            <td>{$row['nombre']}</td>
+                            <td>{$row['precio']}</td>
+                            <td>{$row['categoria']}</td>
+                          </tr>";
+                        }
+                       }else{
+                          echo "<tr><td>No hay productos registrados</td></tr>";
+                       }
+                      ?>
+                    </table>
+                    </div>
                 </body>
                 </html>

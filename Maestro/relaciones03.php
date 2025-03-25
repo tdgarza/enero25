@@ -220,7 +220,7 @@ input[type="submit"]:hover {
                 echo "<p class='success'>Nuevo alumno agregado con éxito.</p>";
                 header("Location: " . $_SERVER['PHP_SELF']);
                 exit();
-            } else {
+            } else {  
                 echo "<p class='error'>Error al agregar al alumno: " . $conexion->error . "</p>";
             }
         }

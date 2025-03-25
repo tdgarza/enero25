@@ -242,5 +242,3 @@ echo "<p>No se encontraron registros en la base de datos.</p>";
 </body>
 </html>
 
-
-VAMONOS, GUARDEN y APAGUEN
