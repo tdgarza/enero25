@@ -13,7 +13,8 @@
                         $nombre = $_POST["nombre"];
                         $precio = $_POST["precio"];
                         $id_categoria = $_POST["categoria"];
-                        $sql = "INSERT INTO productos (nombre, precio, id_categoria) VALUES ('$nombre','$precio', '$id_categoria')";
+                        $id_colores = $_POST["colores"];
+                        $sql = "INSERT INTO productos (nombre, precio, id_categoria, id_colores) VALUES ('$nombre','$precio', '$id_categoria','$id_colores')";
                     if($conexion->query($sql)===TRUE){
                             echo "<p style='color:green;'>Producto agregado con éxito.</p>";
                         } else {
@@ -23,6 +24,9 @@
                     //Esta parte siguiente es la que generara el dropdown menu para desplegar las opciones que vamos a meter a la base de datos
                     $sql_categorias = "SELECT * FROM categorias";
                     $result_categorias = $conexion->query($sql_categorias);
+
+                    $sql_colores = "SELECT * FROM colores";
+                    $result_colores = $conexion->query($sql_colores);
                 ?>
                 <!DOCTYPE html>
                 <html lang="en">
@@ -133,6 +137,18 @@ input[type="submit"]:hover {
                         ?>
         </select><br><br>
 
+        <label>Colores:</label>
+                        <select name="colores" required>
+                         <option value="">Seleccione un  color</option>
+                    <?php
+                         if ($result_colores->num_rows > 0) {
+                              while ($row = $result_colores->fetch_assoc()) {
+                             echo "<option value='" . $row["id"] . "'>" . $row["nombre_color"] . "</option>";
+                             }
+                        }
+                        ?>
+        </select><br><br>
+
         <input type="submit" value="Agregar Producto">
                     </form>
                     
@@ -142,17 +158,22 @@ input[type="submit"]:hover {
                         <th>Nombre</th>
                         <th>Precio</th>
                         <th>Categoria</th>
+                        <th>Color</th>
                       </tr>
                       <?php
-                       $sql_productos = "SELECT Productos.nombre, productos.precio, categorias.nombre AS categoria
-                       FROM productos
-                       JOIN categorias ON productos.id_categoria = categorias.id";$result_productos = $conexion->query($sql_productos);
+                       $sql_productos = "SELECT p.nombre, p.precio, ca.nombre AS categoria, co.nombre_color AS color
+                  FROM productos p
+                  JOIN categorias ca ON p.id_categoria = ca.id
+                  JOIN colores co ON p.id_colores = co.id";
+                      
+                       $result_productos = $conexion->query($sql_productos);
                        if($result_categorias ->num_rows>0){
                         while($row = $result_productos->fetch_assoc()){
                           echo "<tr>
                             <td>{$row['nombre']}</td>
                             <td>{$row['precio']}</td>
                             <td>{$row['categoria']}</td>
+                            <td>{$row['nombre_color']}</td>
                           </tr>";
                         }
                        }else{
