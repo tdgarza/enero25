@@ -1,5 +1,4 @@
 <?php
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -145,7 +144,7 @@ $sql = "SELECT
                 // edades, colonias, especialidades, generos es el nombre de la tabla, lo de id_edad, colonia, especialidad, genero, es el nombre de la columna
        $resultado = $conexion->query($sql);
 
-       $resultado = $conexion->query($sql);
+
 
        if ($resultado->num_rows > 0) {
           
