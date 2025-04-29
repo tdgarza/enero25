@@ -63,7 +63,7 @@ $dbname = "xmen";
 try {
   $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  $stmt = $conn->prepare("SELECT id, nombre, nombrereal, poderes, primeraaparicion, bio FROM equipoazul");
+  $stmt = $conn->prepare("SELECT id, nombre, nombrereal, poderes, primeraaparicion, imagen FROM mutantes");
   $stmt->execute();
 
   // set the resulting array to associative
