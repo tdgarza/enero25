@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <title>Peliculas API</title>
+</head>
+<body>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        body{
+            background-color: #006494;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            margin: 0;
+        }
+        header{
+            padding: 10px;
+            display: flex;
+            justify-content: flex-end;
+            background-color: #13293d;
+        }
+        #search{
+            background-color: white;
+            border: 2px solid #e48ce4;
+            border-radius: 50px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 12px;
+            padding: 5px 5px;
+            color: #fff;
+        }
+        #search::placeholder {
+            color: #13293D;
+        }
+        #search:focus{
+            outline: none;
+            background-color: #006494;
+        }
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .movie{
+            width: 300px;
+            margin: 10px;
+            background-color: #2e4860;
+            box-shadow: 0 5px 5px gray;
+            position: relative;
+            overflow: hidden;
+            border-radius: 5px;
+        }
+        .movie img {
+            width: 100%;
+        }
+        .movie-info {
+            color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 5px;
+            padding: 5px 10px 10px;
+            letter-spacing: 1px;
+        }
+        .movie-info h3 {
+            margin-top: 0;
+        }
+        .movie-info span{
+            background-color: #2e4860;
+            padding: 3px 1px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .movie-info span.green{
+            color: lightgreen;
+        }
+        .movie-info span.orange{
+            color: orange;
+        }
+        .movie-info span.red{
+            color: red;
+        }
+        .overview{
+            background-color: #9ac4f8;
+            padding: 20px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            max-height: 100%;
+            transform: translateY(101%);
+            overflow-y: auto;
+            transition: transform 0.3s ease-in;
+            opacity: 80%;
+            color: #3d405b;
+        }
+        .movie:hover .overview{
+            transform: translateY(0);
+        }
+
+
+    </style>
+    <div style="margin: 24px;">
+        <nav class="nav navbar-light" style="background-color: #9bc6e5;">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">Inicio</a>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Unidad 1</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="perfil.html">Perfil</a><br>
+                                <a class="dropdown-item" href="calculadora.html">Calculadora</a><br>
+                                <a class="dropdown-item" href="tienda.html">Tienda</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Unidad 2</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="tiendapedido.html">Tienda Pedido</a><br>
+                                <a class="dropdown-item" href="json.html">Json</a><br>
+                                <a class="dropdown-item" href="tiendapedido1.html">Tienda Pedido 2</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Unidad 3</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="basedatos.html">Base de datos</a><br>
+                                <a class="dropdown-item" href="peliculas.html">Peliculas</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+  
+    <main id="main">
+
+    </main>
+
+
+    <script>
+        const API_URL = 'https://api.artic.edu/api/v1/artworks';
+        const main = document.getElementById('main');
+        const form = document.getElementById('form');
+        const search = document.getElementById('search');
+    
+        getMovies(API_URL)
+
+        async function getMovies(url){
+            const res = await fetch(url);
+            const data = await res.json();
+
+            showMovies(data.data);
+        }
+        function showMovies(movies){
+            main.innerHTML = '';
+
+            movies.forEach((movie) => {
+                const {title, artist_title, date_display, image_id} = movie;
+                const movieElements = document.createElement('div');
+                movieElements.classList.add('card');
+
+                movieElements.innerHTML = `
+                    <h3>${title}</h3>
+                   `  </div>
+                main.appendChild(movieElements);
+                ;
+            })
+        }
+
+    </script>
+</body>
+</html>
