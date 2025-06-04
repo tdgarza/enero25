@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dragon Ball API</title>
+</head>
+<body>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #22254b;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      margin: 0;
+    }
+    header {
+      padding: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      background-color: #f28c28;
+    }
+    .search {
+      background-color: transparent;
+      border: 2px solid #ffb347;
+      border-radius: 50px;
+      font-family: inherit;
+      font-size: 15px;
+      padding: 0.5rem 1rem;
+      color: #fff;
+    }
+    .search::placeholder {
+      color: #ffe0b2;
+    }
+    .search:focus {
+      outline: none;
+      background-color: #ffb347;
+    }
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .movie {
+      width: 400px;
+      margin: 1rem;
+      background-color: #ffb347;
+      box-shadow: 0 4px 5px #000;
+      position: relative;
+      overflow: hidden;
+      border-radius: 3px;
+        display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    }
+    .movie img {
+      width: 80%;
+      height: 400px;
+      object-fit: contain;
+    }
+    .movie-info {
+      color: #222;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 15px 15px 15pxuy;
+      letter-spacing: 0.5px;
+    }
+    .movie-info h3 {
+        color: white;
+      margin-top: 0;
+    }
+    .overview {
+      background-color: #fff;
+      padding: 1rem;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      max-height: 100%;
+      transform: translateY(101%);
+      overflow-y: auto;
+      transition: transform 0.3s ease-in;
+    }
+    .movie:hover .overview {
+      transform: translateY(0);
+    }
+  </style>
+
+  <header>
+    <div id="logo">
+        <img src="dragonball.jpg" style="width: 100px;">
+    </div>
+    <form id="form">
+      <input type="text" id="search" class="search" placeholder="Buscar personaje" />
+    </form>
+  </header>
+  <main id="main"></main>
+
+ <script>
+const API_URL = 'https://rickandmortyapi.com/api/character';
+
+const main = document.getElementById('main');
+const form = document.getElementById('form');
+const search = document.getElementById('search');
+
+// Función para obtener TODOS los personajes de todas las páginas
+async function getAllCharacters(url) {
+  main.innerHTML = '';
+  let nextUrl = url;
+
+  while (nextUrl) {
+    const res = await fetch(nextUrl);
+    const data = await res.json();
+    showCharacters(data.results);
+    nextUrl = data.info.next; // Avanza a la siguiente página si existe
+  }
+}
+
+// Mostrar los personajes
+function showCharacters(characters) {
+  characters.forEach(character => {
+    const { name, image, species, status } = character;
+    const characterEl = document.createElement('div');
+    characterEl.classList.add('movie');
+    characterEl.innerHTML = `
+      <img src="${image}" alt="${name}">
+      <div class="movie-info">
+        <h3>${name}<br><span>${species}</span></h3>
+      </div>
+      <div class="overview">
+        <h3>Status</h3>
+        ${status}
+      </div>
+    `;
+    main.appendChild(characterEl);
+  });
+}
+
+// Búsqueda individual
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const searchTerm = search.value.toLowerCase();
+  if (searchTerm && searchTerm !== '') {
+    getAllCharacters(API_URL + `?name=${searchTerm}`);
+    search.value = '';
+  } else {
+    getAllCharacters(API_URL);
+  }
+});
+
+// Llama a todos los personajes al iniciar
+getAllCharacters(API_URL);
+</script>
+
+</body>
+</html>
