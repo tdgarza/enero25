@@ -27,9 +27,9 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="unidad1.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">UNIDAD 2</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
-              <a class="dropdown-item" href="./tomas01.php">Practica 4</a><br>
+              <a class="dropdown-item" href="/enero25/tomas04.html">Practica 4</a><br>
               <a class="dropdown-item" href="/enero25/tomas05.html">Practica 5</a><br>
-              <a class="dropdown-item" href="./tomas06.html">Practica 6</a>
+              <a class="dropdown-item" href="/enero25/tomas06.html">Practica 6</a>
             
           </li>
         </ul>
@@ -37,10 +37,10 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="unidad1.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">UNIDAD 3</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
-              <a class="dropdown-item" href="./tomas07.html">Practica 7</a><br>
-              <a class="dropdown-item" href="./tomas08.html">Practica 8</a><br>
-              <a class="dropdown-item" href="./tomas09.html">Practica 9</a><br>
-              <a class="dropdown-item" href="/enero25/tomas10.html">Practica Final</a>
+              <a class="dropdown-item" href="/tomas07.html">Practica 7</a><br>
+              <a class="dropdown-item" href="/tomas08.html">Practica 8</a><br>
+              <a class="dropdown-item" href="/tomas09.html">Practica 9</a><br>
+              <a class="dropdown-item" href="/tomas10.html">Practica Final</a>
             
           </li>
         </ul>
@@ -142,7 +142,6 @@
          transform: translateY(0);
         }
     </style>
-    
 
     <header>
         <form id="form">
@@ -152,49 +151,89 @@
     <main id="main"></main>
 
     <script>
-        const API_URL = 'https://dragonball-api.com/api/characters'; 
-        const main = document.getElementById('main');
-        const form = document.getElementById('form');
-        const search = document.getElementById('search');
+const API_RICK = 'https://rickandmortyapi.com/api/character';
+const API_HP = 'https://hp-api.onrender.com/api/characters';
 
-        getCharacters(API_URL)
-           async function getCharacters(url){
-            const res = await fetch(url);
-            const data = await res.json();
-            showCharacters(data.items || data);
-        }
-        function showCharacters(characters){
-            main.innerHTML = '';
-            characters.forEach((char) => {
-                    const {id, name, image, ki, maxKi, race, gender, description} = char;
-                    const charElement = document.createElement('div');
-                    charElement.classList.add('personaje');
-                    charElement.innerHTML = `
-                    <img src ="${image}" alt = "${image}">
-                    <div class ="personaje-info">
-                   <h1>${id}</h1>
-                    <h3>${name}</h3>
-                    <br>
-                    ${race}
-                    </div>
-                    <div class = "overview">
-                    <h3>Descripcion</h3>
-                    <p><strong>Ki:</strong> ${ki}</p>
-                    <p><strong>Max Ki:</strong> ${maxKi}</p>
-                    ${description}
-                    </div>`
-                      main.appendChild(charElement);
-            })} 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault()
-            const searchTerm = search.value.toLowerCase();
-            if(searchTerm && searchTerm !== ''){
-                getCharacters(API_URL + `?name=${searchTerm}`)
-                search.value = '';
-            }else{
-                window.location.reload();
-            }
-        })
-    </script>
+const main = document.getElementById('main');
+const form = document.getElementById('form');
+const search = document.getElementById('search');
+
+// Carga inicial de todas las APIs
+getAllCharacters();
+//Se llama a la función que obtiene todos los personajes de ambas APIs cuando la página carga por primera vez
+async function getAllCharacters() {
+  const [rmRes, hpRes] = await Promise.all([
+    fetch(API_RICK).then(res => res.json()),
+    fetch(API_HP).then(res => res.json())
+  ]);
+//La función es async, porque va a usar await.
+//Se muestra un mensaje mientras se cargan los personajes.
+//Se hacen ambas peticiones en paralelo con Promise.all.
+//Se convierten las respuestas en formato JSON.
+//await hace que JavaScript espere el resultado de Promise.all(...) antes de continuar con el resto del código. Es decir, detiene la ejecución hasta que ambas respuestas estén listas.
+
+  const rickChars = rmRes.results || [];
+  const hpChars = hpRes || [];
+//Se guardan los arrays de personajes.
+//Rick and Morty usa results, Harry Potter devuelve un array directamente.
+
+
+  showCharacters([...rickChars, ...hpChars]);
+}
+//Se llama a showCharacters para mostrar todos los personajes juntos.
+
+function showCharacters(characters) {
+  main.innerHTML = '';
+  characters.forEach((char) => {
+    let name = char.name || 'Desconocido';
+    let image = char.image || '';
+    let race = char.species || '';
+    let description = char.house ? `Casa: ${char.house}` : '';
+    let status = char.status || (char.alive === false ? 'Deceased' : 'Alive');
+//Se definen variables con seguridad para evitar errores si un dato no existe:
+//name, image, species → comunes en ambas APIs.
+//house → específico de Harry Potter.
+//status → en Rick and Morty, o se deduce por alive en Harry Potter.
+    const charElement = document.createElement('div');
+    charElement.classList.add('personaje');
+    charElement.innerHTML = `
+      <img src="${image}" alt="${name}">
+      <div class="personaje-info">
+        <h3>${name}</h3>
+        <br>${race}
+      </div>
+      <div class="overview">
+        <h3>Descripción</h3>
+        ${status ? `<p><strong>Status:</strong> ${status}</p>` : ''}
+        ${description}
+      </div>
+    `;
+    main.appendChild(charElement);
+  });
+}
+
+// Buscador
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const searchTerm = search.value.toLowerCase();
+
+  if (searchTerm && searchTerm !== '') {
+    const [rmRes, hpRes] = await Promise.all([
+      fetch(API_RICK + `?name=${searchTerm}`).then(res => res.json()).catch(() => ({ results: [] })),
+      fetch(API_HP).then(res => res.json())
+    ]);
+
+    const rmResults = rmRes.results?.filter(c => c.name.toLowerCase().includes(searchTerm)) || [];
+    const hpResults = hpRes.filter(c => c.name.toLowerCase().includes(searchTerm)) || [];
+
+    showCharacters([...rmResults, ...hpResults]);
+    search.value = '';
+  } else {
+    getAllCharacters();
+  }
+});
+</script>
+
+
 </body>
 </html>

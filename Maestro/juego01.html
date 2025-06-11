@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Juego de Movimiento 2D</title>
+  <style>
+    canvas {
+      border: 2px solid black;
+      background-color: #f0f0f0;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="800" height="400"></canvas>
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+// Cargar imagen del personaje (ejemplo: sprite de 32x48 px por frame)
+const playerImage = new Image();
+playerImage.src = "character_walk_sheet.png"; // Cambia esto por tu imagen local o URL
+
+let animationFrame = 0;
+let frameTimer = 0;
+
+// Estados del personaje
+const player = {
+  x: 50,
+  y: 300,
+  width: 32,
+  height: 48,
+  speed: 4,
+  velocityY: 0,
+  jumping: false,
+  gravity: 0.6,
+  jumpStrength: -12,
+  state: "idle", // idle, walk, jump
+};
+
+// Controles
+const keys = {
+  ArrowLeft: false,
+  ArrowRight: false,
+  Space: false
+};
+
+document.addEventListener("keydown", (e) => {
+  if (keys.hasOwnProperty(e.code)) keys[e.code] = true;
+});
+document.addEventListener("keyup", (e) => {
+  if (keys.hasOwnProperty(e.code)) keys[e.code] = false;
+});
+
+function update() {
+  // Estado inicial
+  player.state = "idle";
+
+  // Movimiento horizontal
+  if (keys.ArrowLeft) {
+    player.x -= player.speed;
+    player.state = "walk";
+  }
+  if (keys.ArrowRight) {
+    player.x += player.speed;
+    player.state = "walk";
+  }
+
+  // Salto
+  if (keys.Space && !player.jumping) {
+    player.velocityY = player.jumpStrength;
+    player.jumping = true;
+    player.state = "jump";
+  }
+
+  // Gravedad
+  player.velocityY += player.gravity;
+  player.y += player.velocityY;
+
+  // Suelo
+  if (player.y + player.height >= canvas.height) {
+    player.y = canvas.height - player.height;
+    player.jumping = false;
+    player.velocityY = 0;
+  }
+
+  // Animación
+  if (frameTimer++ > 8) {
+    animationFrame = (animationFrame + 1) % 4; // 4 frames en la imagen
+    frameTimer = 0;
+  }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Coordenadas del frame en el sprite sheet
+  const frameX = animationFrame * player.width;
+
+  // Dibujar personaje
+  if (playerImage.complete) {
+    ctx.drawImage(
+      playerImage,
+      frameX, 0,
+      player.width, player.height,
+      player.x, player.y,
+      player.width, player.height
+    );
+  } else {
+    ctx.fillStyle = "blue";
+    ctx.fillRect(player.x, player.y, player.width, player.height);
+  }
+}
+
+function gameLoop() {
+  update();
+  draw();
+  requestAnimationFrame(gameLoop);
+}
+
+// Iniciar juego cuando la imagen esté cargada
+playerImage.onload = () => {
+  gameLoop();
+};
+  </script>
+</body>
+</html>

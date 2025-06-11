@@ -140,7 +140,7 @@ function showCharacters(characters) {
   });
 }
 
-// Búsqueda individual
+// Búsqueda de cada uno de los personajes
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   const searchTerm = search.value.toLowerCase();
@@ -152,7 +152,7 @@ form.addEventListener('submit', (e) => {
   }
 });
 
-// Llama a todos los personajes al iniciar
+// Cuando se inicia la pagina, primero manda llamar a todos lo personajes, para eso esta linea
 getAllCharacters(API_URL);
 </script>
 
