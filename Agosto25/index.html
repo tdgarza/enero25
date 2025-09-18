@@ -8,9 +8,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    
-    <link href="https://fonts.cdnfonts.com/css/delion" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/bowlby-one-sc" rel="stylesheet">
                 
+    <link href="https://fonts.cdnfonts.com/css/delion" rel="stylesheet">
+     <link href="https://fonts.cdnfonts.com/css/counterfire" rel="stylesheet">
+                           
 
     <title>Tomas Garza</title>
 </head>
@@ -26,6 +28,44 @@
      body{
         background-color: var(--baby-powder);
      }
+     .gantz-section{
+      position: relative;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background:url("fondo.jpg") no-repeat center center/cover;
+     }
+     .gantz-section::after{
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      z-index: 1;
+     }
+     .gantz-text{
+      position: relative;
+      z-index: 2;
+     }
+     .gantz-text h1,
+     .gantz-text h3,
+     .gantz-text p{
+      font-family: 'Bowlby One SC', sans-serif;
+      font-size: 60px;
+      font-weight: bold;
+
+      background: url("fondo.jpg") no-repeat center center/cover;
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip: text;
+      letter-spacing: 5px;
+
+     }
+     
 </style>
 
 <!--ESTA PARTE ES LA BARRA SOLAMENTE DEL COLOR QUE USTEDES DECIDAN, LA PARTE DEL "VAR" -->
@@ -67,59 +107,13 @@
           </li>
         </ul>
 </nav>
-<style>
-.hero-section {
-  position: relative;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
 
-  /* Usamos la imagen como fondo */
-  background: url("back.jpg") no-repeat center center/cover;
-}
-
-/* Capa oscura sobre la imagen */
-.hero-section::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7); /* hace oscuro el fondo */
-  z-index: 1;
-}
-
-.hero-text {
-  position: relative;
-  z-index: 2; /* queda encima de la capa oscura */
-}
-
-.hero-text h1,
-.hero-text p {
-  font-family: 'Delion', sans-serif;
-  font-size: 60px;
-  font-weight: bold;
-  text-transform: uppercase;
-
-  /* Texto recortado con la imagen */
-  background: url("back.jpg") no-repeat center center/cover;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-
-  letter-spacing: 3px;
-}
-
-
-</style>
-<div class="jumbotron hero-section">
-  <div class="hero-text">
-    <h1>Ciberseguridad</h1>
-    <p>Protegiendo el futuro digital</p>
-  </div>
+    <div class="jumbotron" style="background-color:var(--cambridge-blue); color: var(--baby-powder);"> -
+      <div class="gantz-text">
+        <h1>Tomas Garza</h1>
+        <h3>Programacion 5toA</h3>
+        <p>Construye paginas Web</p>
+      </div>
 </div>
     
 </body>

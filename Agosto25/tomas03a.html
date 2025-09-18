@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tabla de Ataques de Ciberseguridad</title>
+  <style>
+
+      :root{
+    --oxford-blue: #0a2342ff;
+    --zomp: #2ca58dff;
+    --cambridge-blue: #84bc9cff;
+    --baby-powder: #fffdf7ff;
+    --cyclamen: #f46197ff;
+     }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--baby-powder);
+      color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .table-ciber {
+  width: 90%;
+  margin: 40px auto;
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+  background-color: var(--baby-powder);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table-ciber thead {
+  background-color: var(--oxford-blue);
+  color: var(--baby-powder);
+}
+
+.table-ciber th, 
+.table-ciber td {
+  padding: 14px 18px;
+  text-align: center;
+  border: 1px solid var(--cambridge-blue);
+  font-size: 16px;
+}
+
+.table-ciber th {
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.table-ciber tr:nth-child(even) {
+  background-color: var(--cambridge-blue);
+  color: var(--oxford-blue);
+}
+
+.table-ciber tr:nth-child(odd) {
+  background-color: var(--baby-powder);
+  color: var(--oxford-blue);
+}
+
+.table-ciber tr:hover {
+  background-color: var(--zomp);
+  color: var(--baby-powder);
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.table-ciber img {
+  width: 70px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.3);
+}
+
+  </style>
+</head>
+<body>
+
+  <table class="table-ciber" id="tablaCiberseguridad">
+    <thead>
+      <tr>
+        <th>Ataque</th>
+        <th>Descripción</th>
+        <th>Impacto</th>
+        <th>Ejemplo</th>
+        <th>Imagen</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // 1. JSON con información sobre ataques de ciberseguridad
+    const ataques = [
+      {
+        "ataque": "Phishing",
+        "descripcion": "Engaña a usuarios para robar credenciales mediante correos falsos.",
+        "impacto": "Robo de identidad, pérdida de datos.",
+        "ejemplo": "Correo falso de un banco solicitando datos.",
+        "imagen": "https://img.icons8.com/color/96/000000/phishing.png"
+      },
+      {
+        "ataque": "SQL Injection",
+        "descripcion": "Inserta código malicioso en consultas SQL.",
+        "impacto": "Exfiltración y manipulación de bases de datos.",
+        "ejemplo": "Campo de login vulnerable.",
+        "imagen": "https://img.icons8.com/color/96/000000/database.png"
+      },
+      {
+        "ataque": "DDoS",
+        "descripcion": "Satura un servidor con múltiples peticiones.",
+        "impacto": "Interrupción del servicio, pérdida económica.",
+        "ejemplo": "Ataques a sitios de e-commerce.",
+        "imagen": "https://img.icons8.com/color/96/000000/server.png"
+      },
+      {
+        "ataque": "Ransomware",
+        "descripcion": "Cifra archivos y exige rescate.",
+        "impacto": "Pérdida de datos y dinero.",
+        "ejemplo": "Wannacry, Petya.",
+        "imagen": "https://img.icons8.com/color/96/000000/lock.png"
+      },
+      {
+        "ataque": "Man-in-the-Middle",
+        "descripcion": "Intercepta comunicaciones entre dos partes.",
+        "impacto": "Robo de datos, manipulación de información.",
+        "ejemplo": "Intercepción en Wi-Fi públicas.",
+        "imagen": "https://imgs.search.brave.com/wSjAUm_x4uz3etbt_8YkH3vZP1EyMtSyUo13U9MXfZ8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/aWNvbnNjb3V0LmNv/bS9pY29uL3ByZW1p/dW0vcG5nLTI1Ni10/aHVtYi9oYWNrZXIt/aWNvbi1zdmctcG5n/LWRvd25sb2FkLTY5/NzMzNzIucG5nP2Y9/d2VicCZ3PTEyOA"
+      }
+    ];
+
+    // 2. Obtener referencia al <tbody> de la tabla
+    const cuerpoTabla = document.querySelector("#tablaCiberseguridad tbody");
+
+    // 3. Recorrer el JSON y generar filas dinámicamente
+    ataques.forEach(ataque => {
+      // Crear una fila
+      const fila = document.createElement("tr");
+
+      // Insertar celdas con datos
+      fila.innerHTML = `
+        <td>${ataque.ataque}</td>
+        <td>${ataque.descripcion}</td>
+        <td>${ataque.impacto}</td>
+        <td>${ataque.ejemplo}</td>
+        <td><img src="${ataque.imagen}" alt="${ataque.ataque}"></td>
+      `;
+
+      // Agregar la fila al cuerpo de la tabla
+      cuerpoTabla.appendChild(fila);
+    });
+  </script>
+
+</body>
+</html>
