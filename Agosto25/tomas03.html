@@ -3,18 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <link href="https://fonts.cdnfonts.com/css/delion" rel="stylesheet">
-                
-
-    <title>Tomas Garza</title>
+    <link href="https://fonts.cdnfonts.com/css/bowlby-one-sc" rel="stylesheet">
+    <title>Document</title>
 </head>
 <body>
- <style>
+<style>
           :root{
     --oxford-blue: #0a2342ff;
     --zomp: #2ca58dff;
@@ -96,9 +93,9 @@ h2{
     color: var(--cyclamen);
 }
     </style>
- <!--ESTA PARTE ES LA BARRA SOLAMENTE DEL COLOR QUE USTEDES DECIDAN, LA PARTE DEL "VAR" -->
 <div class="container">
- <nav class="navbar navbar-light" style="background-color: var(--cyclamen); position: absolute;"> 
+    <!--ESTA PARTE ES LA BARRA SOLAMENTE DEL COLOR QUE USTEDES DECIDAN, LA PARTE DEL "VAR" -->
+<nav class="navbar navbar-light" style="background-color: var(--cyclamen); position: absolute;"> 
   
     <div class="container">
         <a class="navbar-brand" href="index.html" style="color:var(--baby-powder)">Inicio</a>
@@ -137,97 +134,82 @@ h2{
         </ul>
 </nav>
 </div>
-
-   <h1>Ciberseguridad 01</h1>
-    <h2>Tipos de Malware</h2>
-
-    <table class="tabla-ciber">
-        <tr>
-            <th>Tipo de Malware</th>
-            <th>Función</th>
-            <th>Impacto</th>
-        </tr>
-        <tr>
-            <td>Virus</td>
-            <td>Autoreplicable, infecta archivos</td>
-            <td>Daño de datos al igual que de sistema</td>
-        </tr>
-        <tr>
-            <td>Gusanos</td>
-            <td>Se propaga a traves de las redes</td>
-            <td>Interrupción de la red, agotamiento de recursos</td>
-        </tr>
-        <tr>
-            <td>Caballo de troya</td>
-            <td>Se disfraza de software legitimo</td>
-            <td>Robo de datos, control de sistema</td>
-        </tr>
-        <tr>
-            <td>Ransomware</td>
-            <td>Cifra archivos y exige el pago</td>
-            <td>Robo de datos, control de sistema</td>
-        </tr>
-        <tr>
-            <td>Software espia</td>
-            <td>Supervisa en secreto la actividad del usuario</td>
-            <td>Violacion de privacidad, robo de datos</td>
-        </tr>
-        <tr>
-            <td>Software publicitario (Adware)</td>
-            <td>Muestra anuncios no deseados</td>
-            <td>Molestia, degradacion del rendimiento</td>
-        </tr>
-         <tr>
-            <td>Rootkit</td>
-            <td>Ocultar software malicioso</td>
-            <td>Acceso no autorizado, amenazas persistentes.</td>
-        </tr>
-         <tr>
-            <td>Keylogger</td>
-            <td>Registra las pulsaciones de teclas</td>
-            <td>Robo de credenciales, filtracion de datos</td>
-        </tr>
-         <tr>
-            <td>Fileless Malware <br> Malware sin archivos</td>
-            <td>Corre de la memoria</td>
-            <td>Ataques sigilosos y dificiles de detectar</td>
-        </tr>
-         <tr>
-            <td>Cryptojacker</td>
-            <td>Minas de criptomonedas</td>
-            <td>Problemas de rendimiento, secuestro de recursos</td>
-        </tr>
-         <tr>
-            <td>Red de boots (Botnet)</td>
-            <td>Crea una red de dispositivos infectados</td>
-            <td>Ataque DDoS, distribucion de spam</td>
-        </tr>
-         <tr>
-            <td>Bomba Lógica (logic Bomb)</td>
-            <td>Ejecuta codigo en el disparador</td>
-            <td>Destruccion de datos, daños al sistema</td>
-        </tr>
-         <tr>
-            <td>Wiper (limpiaparabrisas)</td>
-            <td>Destruye datos</td>
-            <td>Perdida irreversible de datos</td>
-        </tr>
-         <tr>
-            <td>Scareware</td>
-            <td></td>
-            <td></td>
-        </tr>
-         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-
+<br>
+<br>
+    <table class="tabla-ciber" id="tablaCiberseguridad">
+        <thead>
+            <tr>
+                <th>Ataque</th>
+                <th>Descripción</th>
+                <th>Impacto</th>
+                <th>Ejemplo</th>
+                <th>Imagen</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
     </table>
+    <script>
+        //El JSON (JavaScript, Object Notation) con la informacion sobre los ataques de ciberseguridad
+        //declaro la variable en forma CONST para que sea "global"
+        const ataques = [
+            //lo que sigue son los elementos de este json separados por comas ,el final no se pone la coma para decirle que ya acabo
+            {
+                //estos son los nombres de cada variable que voy a mandar llamar en el html para la tabla
+                "ataque": "Phishing", //se le agrega la coma para decir que continua
+                "descripcion": "Engaña al usuario para robar las credenciales mediante correos falsos.",
+                "impacto":"Robo de identidad, pérdida de datos.",
+                "ejemplo": "Correo falso de un banco solicitando datos.",
+                "imagen":"https://www.galdon.com/wp-content/uploads/2021/05/portada-1024x576.png" //aqui buscan una imagen en google referente a eso, poner la liga, y como notan, aqui no hay coma al final porque fue la linea "final".
+            },
+            {
+               
+                "ataque": "",
+                "descripcion": "",
+                "impacto":"",
+                "ejemplo": "",
+                "imagen":""
+            },{
+               
+                "ataque": "",
+                "descripcion": "",
+                "impacto":"",
+                "ejemplo": "",
+                "imagen":""
+            },
+            {
+               
+                "ataque": "",
+                "descripcion": "",
+                "impacto":"",
+                "ejemplo": "",
+                "imagen":""
+            },
+            {
+               
+                "ataque": "",
+                "descripcion": "",
+                "impacto":"",
+                "ejemplo": "",
+                "imagen":""
+            }
+        ];
+        //Con esta linea voy a hacer referencia al "tbody" que se quedo en la parte de la tabla vacio.
+        const cuerpoTabla = document.querySelector("#tablaCiberseguridad tbody");
+        ataques.forEach(ataque =>{ //con esta linea, el forEach va a recorrer todo el script JSON y generara las filas dinamicamente.
+            //aqui va a crear una fila
+            const fila = document.createElement("tr");
+               // Insertar celdas con datos
+               fila.innerHTML = `
+               <td>${ataque.ataque}</td>
+               <td>${ataque.descripcion}</td>
+               <td>${ataque.impacto}</td>
+               <td>${ataque.ejemplo}</td>
+               <td><img src="${ataque.imagen}" alt="${ataque.ataque}"></td>
+               `;
+
+               // Agregar la fila al cuerpo de la tabla
+               cuerpoTabla.appendChild(fila);
+                });
+    </script>
 </body>
 </html>

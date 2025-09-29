@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <title>Bisecciones</title>
+</head>
+<body>
+    <div style="margin: 5px;">
+        <nav class="navbar navbar-light" style="background-color: #F05365;">
+            <!-- Navbar content -->
+          </nav>
+    </div>
+    <div class="jumbotron">
+        <h1 class="display-4" style="color: pink;">Tomas Garza</h1>
+        <p class="lead">MEcatronica Semestre 3 Metodos Numericos<hr class="my-4">
+        <p>Unidad 2 Tema 1 Bisecciones sucesivas<p class="lead">
+         
+          <table>
+            <tr>
+              <th>Concepto</th>
+              <th>Valores</th>
+            </tr>
+            <tr>
+              <td>Valor Inicial Inferior: </td>
+              <td><input id="xl" size="5"></td>
+            </tr>
+            <tr>
+              <td>Valor Inicial Superior: </td>
+              <td><input id="xu" size="5"></td>
+            </tr>
+          </table>
+          <button type="button" onclick="bisecciones()">Iniciar</button>
+
+<p style="background-color: #f8cdda; color: #f1f1f1; font-weight: bold; color: black; font-size:20px" id="sumando">Resultado: </p>  
+
+
+        </p>
+      </div>
+      <script>
+        function bisecciones(){
+          let xl=parseInt(document.getElementById("xl").value);
+          let xu=parseInt(document.getElementById("xu").value);
+          console.log("El valor de la variable Xl= "  +xl);
+          console.log("El valor de la variable Xu= "  +xu);
+          let erroranterior=0;
+          do{
+          
+          let e0=Math.exp(-xl);
+          let e1=Math.exp(-xu);
+          var xr = (xu+xl)/2; //esta es la formula de bisecciones
+          let fxl = e0-xl; 
+          let fxu = e1-xu;
+          let e2=Math.exp(-xr);
+          let fxr = e2-xr;
+          console.log("El valor de XR= "  +xr);
+          console.log("El valor de la funcion Xu= "  +fxu);
+          console.log("El valor de la funcion Xl= "  +fxl);
+          console.log("El valor de la funcion Xr= "  +fxr);
+          
+          let erroractual =Math.abs((xr-erroranterior)/xr);
+          erroranterior=xr;
+          var error =erroractual*100;
+          if(fxl*fxr<0){
+            xu=xr;
+
+          }
+          else if(fxl*fxr>0){
+            xl=xr;
+            }
+          }while(error>1);
+          
+          
+        }
+    
+
+
+
+
+      </script>
+    
+</body>
+</html>
