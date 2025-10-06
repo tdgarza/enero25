@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    
+    <title>Calculadora</title>
+</head>
+<body>
+    <style>
+          :root{
+    --oxford-blue: #0a2342ff;
+    --zomp: #2ca58dff;
+    --cambridge-blue: #84bc9cff;
+    --baby-powder: #fffdf7ff;
+    --cyclamen: #f46197ff;
+     }
+     *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+     }
+     body{
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: var(--baby-powder);
+        color: var(--baby-powder);
+        display: grid;
+        justify-content: center;
+        padding: 20px;
+        flex-direction: column;  
+        align-items: center; 
+     }
+     .calc{
+      	width: 33%;
+	      height: 70%;
+	      background-color: var(--cambridge-blue);
+	      position: absolute;
+	      border: 5px solid var(--cyclamen);
+	      border-radius: 20px;
+     }
+     #ans{
+      width: 400px;
+      height: 50px;
+      align-content: center;
+      margin-top:20px;
+      font-family: arial;
+      font-size: 20px;
+      color: var(--oxford-blue);
+      text-align: center;
+      border-radius: 15px;
+    }
+    .btn input[type='button']{
+      width: 70px;
+      padding: 2px;
+      margin: 4px;
+      position: relative;
+      left: 23px;
+      top: 20px;
+      height: 55px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.5s ease;
+      background-color: var(--zomp);
+      border-radius: 6px;
+    }
+    .btn input[type='button']:hover{
+	    background-color: pink;
+	    color: white;
+    }
+
+
+
+     
+     </style>
+    <!--ESTA PARTE ES LA BARRA SOLAMENTE DEL COLOR QUE USTEDES DECIDAN, LA PARTE DEL "VAR" -->
+<div class="container">
+    <nav class="navbar navbar-light" style="background-color: var(--cyclamen);"> 
+    <div class="container">
+        <a class="navbar-brand" href="index.html" style="color:var(--baby-powder)">Inicio</a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+         <ul class="nav navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="unidad1.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fffdf7ff;">UNIDAD 1 Ciberseguridad</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+              <a class="dropdown-item" href="./tomas01.html">Conceptos</a><br>
+              <a class="dropdown-item" href="./tomas02.html">Ataques</a><br>
+              <a class="dropdown-item" href="./tomas03.html">Proteccion</a>
+            </div>
+          </li>
+        </ul>
+         <ul class="nav navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="unidad1.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fffdf7ff;">UNIDAD 2</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+              <a class="dropdown-item" href="./tomas04.html">Conceptos</a><br>
+              <a class="dropdown-item" href="/tomas05.php">Ataques</a><br>
+              <a class="dropdown-item" href="/tomas06.php">Proteccion</a>
+            </div>
+          </li>
+        </ul>
+         <ul class="nav navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="unidad1.html" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">UNIDAD 3</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+              <a class="dropdown-item" href="./tomas07.html">Conceptos</a><br>
+              <a class="dropdown-item" href="/tomas08.php">Ataques</a><br>
+              <a class="dropdown-item" href="/tomas09.php">Proteccion</a>
+            </div>
+          </li>
+        </ul>
+</nav>
+
+</div>
+<div class="container">
+<div class="calc">
+    <input type="text" id="ans">
+    <div class="btn">
+        <input type="button" value='C' onclick="Clear()">
+        <input type="button" value='%' onclick="Solve('%')">
+        <input type="button" value='←' onclick="Solve('←')">
+        <input type="button" value='/' onclick="Solve('/')">
+        <br>
+        <input type="button" value='7' onclick="Solve('7')">
+        <input type="button" value='8' onclick="Solve('8')">
+        <input type="button" value='9' onclick="Solve('9')">
+        <input type="button" value='x' onclick="Solve('*')">
+        <br>
+        <input type="button" value='4' onclick="Solve('4')">
+        <input type="button" value='5' onclick="Solve('5')">
+        <input type="button" value='6' onclick="Solve('6')">
+        <input type="button" value='-' onclick="Solve('-')">
+        <br>
+        <input type="button" value='1' onclick="Solve('1')">
+        <input type="button" value='2' onclick="Solve('2')">
+        <input type="button" value='3' onclick="Solve('3')">
+        <input type="button" value='+' onclick="Solve('+')">
+        <br>
+        <input type="button" value='00' onclick="Solve('00')">
+        <input type="button" value='0' onclick="Solve('0')">
+        <input type="button" value='.' onclick="Solve('.')">
+        <input type="button" value='=' onclick="Result()">
+        <br>
+    </div>
+  </div>
+<script type="text/javascript">
+		const Solve = (val)=> {
+			const v=document.getElementById('ans');
+			v.value +=val;
+		}
+		const Result = () =>{
+			const v1=document.getElementById('ans').value;
+			const v2=eval(v1);
+			document.getElementById('ans').value=v2;
+		}
+		const Clear = () =>{
+			const input=document.getElementById('ans');
+			input.value='';
+		}
+		const Back = () =>{
+			const back=document.getElementById('ans');
+			back.value=back.value.slice(0,-1);
+		}
+  </script>
+
+</body>
+</html>
